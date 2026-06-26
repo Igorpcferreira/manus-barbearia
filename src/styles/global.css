@@ -1,0 +1,300 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================================
+   PALETA + TIPOGRAFIA DA MARCA (gera utilitários: bg-neon,
+   text-bone, border-line, font-display, etc.)
+   ============================================================ */
+@theme {
+  --font-display: "Chakra Petch", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+
+  --color-void: #0a0704;
+  --color-void-2: #100a06;
+  --color-panel: #160e08;
+  --color-panel-2: #1e120a;
+  --color-line: #3a2618;
+  --color-line-neon: rgba(255, 122, 26, 0.3);
+  --color-rust: #7a2f0d;
+  --color-orange: #e8590c;
+  --color-orange-2: #c2410c;
+  --color-neon: #ff7a1a;
+  --color-amber: #ffb36b;
+  --color-gold: #c9a35a;
+  --color-bone: #f5ece2;
+  --color-bone-2: #d6c8ba;
+  --color-ash: #9c8a78;
+
+  --shadow-glow: 0 0 6px rgba(255, 122, 26, 0.65), 0 0 18px rgba(255, 122, 26, 0.45), 0 0 40px rgba(255, 122, 26, 0.22);
+  --shadow-glow-sm: 0 0 5px rgba(255, 122, 26, 0.6), 0 0 14px rgba(255, 122, 26, 0.35);
+  --shadow-glow-gold: 0 0 6px rgba(201, 163, 90, 0.5), 0 0 20px rgba(201, 163, 90, 0.3);
+}
+
+/* ============================================================
+   TOKENS SEMÂNTICOS (shadcn/ui) — mapeados para a marca (dark)
+   ============================================================ */
+:root {
+  --radius: 0.75rem;
+  --background: #0a0704;
+  --foreground: #f5ece2;
+  --card: #160e08;
+  --card-foreground: #f5ece2;
+  --popover: #160e08;
+  --popover-foreground: #f5ece2;
+  --primary: #ff7a1a;
+  --primary-foreground: #0a0704;
+  --secondary: #1e120a;
+  --secondary-foreground: #f5ece2;
+  --muted: #1e120a;
+  --muted-foreground: #9c8a78;
+  --accent: #e8590c;
+  --accent-foreground: #ffffff;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --border: #3a2618;
+  --input: #3a2618;
+  --ring: #ff7a1a;
+}
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-void text-bone font-sans antialiased;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  ::selection {
+    background: rgba(255, 122, 26, 0.3);
+    color: var(--color-bone);
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-neon);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  /* Scrollbar */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-rust) transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-rust);
+    border-radius: 6px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-orange-2);
+  }
+}
+
+/* ============================================================
+   UTILITÁRIOS DA MARCA
+   ============================================================ */
+@layer utilities {
+  .text-glow {
+    text-shadow: var(--shadow-glow);
+  }
+  .text-glow-sm {
+    text-shadow: var(--shadow-glow-sm);
+  }
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+  .shadow-glow-sm {
+    box-shadow: var(--shadow-glow-sm);
+  }
+  .shadow-glow-gold {
+    box-shadow: var(--shadow-glow-gold);
+  }
+  /* gradiente neon para títulos em destaque */
+  .text-gradient {
+    background: linear-gradient(100deg, var(--color-amber), var(--color-neon) 40%, var(--color-orange-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+/* ============================================================
+   REVEAL ON SCROLL (script leve via IntersectionObserver)
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ============================================================
+   ANIMAÇÕES DA IDENTIDADE
+   ============================================================ */
+@keyframes flickerIn {
+  0% { opacity: 0; filter: brightness(0.3); }
+  10% { opacity: 0.7; }
+  12% { opacity: 0.2; }
+  20% { opacity: 1; filter: brightness(1.3); }
+  24% { opacity: 0.4; }
+  30%, 100% { opacity: 1; filter: brightness(1); }
+}
+.animate-flicker {
+  animation: flickerIn 2.2s ease-out 1 both;
+}
+
+@keyframes poleSpin {
+  from { background-position: 0 0; }
+  to { background-position: 0 -28px; }
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.45; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.06); }
+}
+.animate-glow-pulse {
+  animation: glowPulse 6s ease-in-out infinite;
+}
+
+@keyframes auroraDrift {
+  0% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(-3%, 2%, 0) rotate(2deg); }
+  100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* Barber pole */
+.barber-pole {
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--color-neon) 0 8px,
+    var(--color-void) 8px 16px,
+    var(--color-bone) 16px 24px,
+    var(--color-void) 24px 28px
+  );
+  background-size: 100% 28px;
+  animation: poleSpin 1.2s linear infinite;
+  box-shadow: var(--shadow-glow-sm), inset 0 0 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Fundo ambiente (aurora de brasa + grão + vinheta) */
+.ambient-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.ambient-aurora {
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(900px 520px at 80% -8%, rgba(232, 89, 12, 0.2), transparent 60%),
+    radial-gradient(720px 600px at -10% 28%, rgba(122, 47, 13, 0.18), transparent 60%),
+    radial-gradient(640px 520px at 60% 110%, rgba(255, 122, 26, 0.1), transparent 60%);
+  animation: auroraDrift 24s ease-in-out infinite;
+}
+.ambient-grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+  background: linear-gradient(transparent 0 2px, rgba(255, 122, 26, 0.025) 2px 3px) 0 0 / 100% 3px;
+}
+.ambient-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.ambient-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 90% at 50% 30%, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+/* Nav: fica sólida ao rolar (classe alternada por script) */
+#nav.nav-solid {
+  background: rgba(10, 7, 4, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom-color: var(--color-line);
+}
+
+/* ============================================================
+   ACESSIBILIDADE: reduz/desliga movimento pesado
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+  .ambient-aurora,
+  .barber-pole,
+  .animate-marquee {
+    animation: none !important;
+  }
+}

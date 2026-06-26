@@ -1,0 +1,95 @@
+---
+import { Image } from 'astro:assets';
+import heroLogo from '@/assets/images/logo-hero.png';
+import { site, links } from '@/data/site';
+import Button from '@/components/Button.astro';
+import StatusBadge from '@/components/islands/StatusBadge.tsx';
+import { Calendar, Star } from 'lucide-react';
+---
+
+<header
+  id="inicio"
+  class="relative flex min-h-[100svh] items-center justify-center overflow-hidden px-4 pb-20 pt-32 text-center"
+>
+  <!-- glow central -->
+  <div
+    class="animate-glow-pulse pointer-events-none absolute left-1/2 top-[36%] h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(232,89,12,0.22),transparent_60%)] blur-md"
+    aria-hidden="true"
+  >
+  </div>
+
+  <!-- barber poles (desktop) -->
+  <div
+    class="barber-pole pointer-events-none absolute left-[6%] top-[22%] hidden h-[56%] w-2.5 rounded-full xl:block"
+    aria-hidden="true"
+  >
+  </div>
+  <div
+    class="barber-pole pointer-events-none absolute right-[6%] top-[22%] hidden h-[56%] w-2.5 rounded-full xl:block"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="relative z-10 mx-auto flex max-w-[720px] flex-col items-center">
+    <span
+      class="inline-flex items-center gap-2 rounded-full border border-line bg-panel/50 px-4 py-1.5 text-[11px] font-display font-semibold uppercase tracking-[0.22em] text-amber"
+    >
+      Barbearia • Goiânia - GO
+    </span>
+
+    <div class="animate-flicker mt-6">
+      <Image
+        src={heroLogo}
+        alt={site.name}
+        width={460}
+        class="mx-auto h-auto w-[min(78vw,440px)] drop-shadow-[0_8px_30px_rgba(0,0,0,0.6)]"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+
+    <p class="mt-6 max-w-[540px] text-base text-bone-2 sm:text-lg">
+      Corte preciso, estilo afiado. Sua melhor versão começa na cadeira —
+      atendimento com hora marcada, do clássico ao moderno.
+    </p>
+
+    <!-- prova social acima da dobra -->
+    <div class="mt-5 flex items-center gap-2 text-sm text-bone-2">
+      <span class="flex text-gold" aria-hidden="true">
+        <Star className="size-4 fill-current" />
+        <Star className="size-4 fill-current" />
+        <Star className="size-4 fill-current" />
+        <Star className="size-4 fill-current" />
+        <Star className="size-4 fill-current" />
+      </span>
+      <span><b class="text-bone">{site.rating}</b> · Avaliações no Google</span>
+    </div>
+
+    <div class="mt-7">
+      <Button href={links.booksy} target="_blank" rel="noopener" size="lg">
+        <Calendar /> Agende Aqui
+      </Button>
+    </div>
+
+    <div class="mt-7">
+      <StatusBadge client:load />
+    </div>
+  </div>
+
+  <!-- seta scroll -->
+  <a
+    href="#sobre"
+    aria-label="Rolar para o conteúdo"
+    class="absolute bottom-6 left-1/2 -translate-x-1/2 text-ash transition-colors hover:text-neon"
+  >
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      class="size-6 animate-bounce"
+    >
+      <path d="M12 5v14M6 13l6 6 6-6"></path>
+    </svg>
+  </a>
+</header>

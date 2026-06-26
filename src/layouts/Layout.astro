@@ -1,0 +1,152 @@
+---
+import '@/styles/global.css';
+import { site, contact, links } from '@/data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Manu's Barbearia — Corte preciso, estilo afiado · Goiânia-GO",
+  description = "Barbearia em Goiânia-GO: cortes, barba e cuidados masculinos com hora marcada. Planos de assinatura ilimitados e agendamento online pelo Booksy.",
+} = Astro.props;
+
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.href;
+const ogImage = Astro.site ? new URL('/og.jpg', Astro.site).href : '/og.jpg';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HairSalon',
+  '@id': `${Astro.site ?? 'https://www.manusbarbearia.com.br/'}#barbearia`,
+  name: site.name,
+  alternateName: 'Manus Barbearia',
+  description,
+  url: Astro.site?.href ?? 'https://www.manusbarbearia.com.br/',
+  image: ogImage,
+  telephone: site.phoneRaw,
+  priceRange: '$$',
+  currenciesAccepted: 'BRL',
+  paymentAccepted: 'Dinheiro, Cartão, Pix',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: contact.addressLine1,
+    addressLocality: 'Goiânia',
+    addressRegion: 'GO',
+    postalCode: '74665-510',
+    addressCountry: 'BR',
+  },
+  geo: { '@type': 'GeoCoordinates', latitude: -16.6469, longitude: -49.317 },
+  areaServed: 'Goiânia',
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '5.0',
+    reviewCount: '6',
+    bestRating: '5',
+  },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '09:00',
+      closes: '19:30',
+    },
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: 'Saturday',
+      opens: '09:00',
+      closes: '18:00',
+    },
+  ],
+  hasMap: links.directions,
+  sameAs: [links.instagram, 'https://booksy.com/pt-br/instant-experiences/widget/133338'],
+};
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0a0704" />
+    <link rel="canonical" href={canonical} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="business.business" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content={site.name} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
+  </head>
+
+  <body>
+    <!-- Fundo ambiente (decorativo) -->
+    <div class="ambient-bg" aria-hidden="true">
+      <div class="ambient-aurora"></div>
+      <div class="ambient-grid"></div>
+      <div class="ambient-grain"></div>
+      <div class="ambient-vignette"></div>
+    </div>
+
+    <slot />
+
+    <!-- Reveal on scroll (leve, sem framework) -->
+    <script>
+      const els = document.querySelectorAll<HTMLElement>('.reveal');
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!('IntersectionObserver' in window) || reduce) {
+        els.forEach((e) => e.classList.add('is-visible'));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                io.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
+        );
+        els.forEach((e) => io.observe(e));
+      }
+    </script>
+
+    <!-- Nav sólida + barra de progresso de scroll -->
+    <script>
+      const nav = document.getElementById('nav');
+      const bar = document.getElementById('scroll-progress');
+      const onScroll = () => {
+        const y = window.scrollY;
+        nav?.classList.toggle('nav-solid', y > 20);
+        if (bar) {
+          const h = document.documentElement.scrollHeight - window.innerHeight;
+          bar.style.width = (h > 0 ? (y / h) * 100 : 0) + '%';
+        }
+      };
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+    </script>
+  </body>
+</html>

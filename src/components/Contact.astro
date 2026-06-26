@@ -1,0 +1,87 @@
+---
+import SectionHead from '@/components/SectionHead.astro';
+import Button from '@/components/Button.astro';
+import { contact, links, site } from '@/data/site';
+import { MapPin, Clock, Phone, Calendar, Navigation } from 'lucide-react';
+import { WhatsAppIcon } from '@/components/icons';
+---
+
+<section
+  id="contato"
+  class="relative z-10 mx-auto max-w-[1160px] scroll-mt-24 px-4 py-20 sm:px-6 sm:py-28"
+>
+  <SectionHead kicker="Onde Estamos">
+    Localização & <span class="text-gradient">Contato</span>
+  </SectionHead>
+
+  <div class="mt-10 grid gap-6 lg:grid-cols-2">
+    <div class="reveal overflow-hidden rounded-2xl border border-line shadow-glow-sm">
+      <iframe
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Mapa - Manu's Barbearia"
+        src={links.mapEmbed}
+        class="h-full min-h-[340px] w-full"
+      ></iframe>
+    </div>
+
+    <div class="reveal flex flex-col gap-4" style="--reveal-delay:80ms">
+      <div class="flex items-start gap-4 rounded-2xl border border-line bg-panel/40 p-5">
+        <span class="grid size-11 shrink-0 place-items-center rounded-xl border border-line bg-void text-neon">
+          <MapPin className="size-5" />
+        </span>
+        <div>
+          <h4 class="font-display font-semibold text-bone">Endereço</h4>
+          <p class="mt-1 text-sm text-bone-2">
+            {contact.addressLine1}<br />
+            <span class="text-ash">{contact.addressLine2}</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-4 rounded-2xl border border-line bg-panel/40 p-5">
+        <span class="grid size-11 shrink-0 place-items-center rounded-xl border border-line bg-void text-neon">
+          <Clock className="size-5" />
+        </span>
+        <div>
+          <h4 class="font-display font-semibold text-bone">Horários</h4>
+          <p class="mt-1 text-sm text-bone-2">
+            {
+              contact.hours.map((h) => (
+                <span class={h.muted ? 'text-ash' : ''}>
+                  {h.d} · {h.h}
+                  <br />
+                </span>
+              ))
+            }
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-4 rounded-2xl border border-line bg-panel/40 p-5">
+        <span class="grid size-11 shrink-0 place-items-center rounded-xl border border-line bg-void text-neon">
+          <Phone className="size-5" />
+        </span>
+        <div>
+          <h4 class="font-display font-semibold text-bone">Telefone / WhatsApp</h4>
+          <p class="mt-1 text-sm text-bone-2">{site.phone}</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <Button href={links.booksy} target="_blank" rel="noopener" size="sm">
+          <Calendar /> Agendar
+        </Button>
+        <Button href={links.whatsapp} target="_blank" rel="noopener" variant="ghost" size="sm">
+          <WhatsAppIcon /> WhatsApp
+        </Button>
+        <Button href={links.tel} variant="ghost" size="sm">
+          <Phone /> Ligar
+        </Button>
+        <Button href={links.directions} target="_blank" rel="noopener" variant="ghost" size="sm">
+          <Navigation /> Como chegar
+        </Button>
+      </div>
+    </div>
+  </div>
+</section>

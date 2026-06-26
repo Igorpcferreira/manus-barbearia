@@ -1,0 +1,53 @@
+---
+import { Image } from 'astro:assets';
+import logoMono from '@/assets/images/logo-mono.png';
+import { links, site } from '@/data/site';
+import { Calendar, Phone } from 'lucide-react';
+import { InstagramIcon, WhatsAppIcon } from '@/components/icons';
+
+const year = new Date().getFullYear();
+
+const socials = [
+  { href: links.instagram, label: 'Instagram', icon: InstagramIcon },
+  { href: links.booksy, label: 'Agendar no Booksy', icon: Calendar },
+  { href: links.whatsapp, label: 'WhatsApp', icon: WhatsAppIcon },
+  { href: links.tel, label: 'Telefone', icon: Phone },
+];
+---
+
+<footer class="relative z-10 border-t border-line/70 bg-void-2/60">
+  <div
+    class="mx-auto flex max-w-[1160px] flex-col items-center gap-6 px-4 py-12 sm:px-6 md:flex-row md:justify-between"
+  >
+    <div class="flex items-center gap-2.5 font-display">
+      <Image src={logoMono} alt="" width={36} height={36} class="h-8 w-8 object-contain" />
+      <span class="text-sm font-semibold tracking-wide text-bone">
+        MANU'S <b class="text-neon">BARBEARIA</b>
+      </span>
+    </div>
+
+    <div class="flex items-center gap-3">
+      {
+        socials.map((s) => {
+          const Icon = s.icon;
+          return (
+            <a
+              href={s.href}
+              target={s.href.startsWith('tel:') ? undefined : '_blank'}
+              rel="noopener"
+              aria-label={s.label}
+              class="grid size-11 place-items-center rounded-full border border-line text-bone-2 transition-all hover:-translate-y-0.5 hover:border-neon hover:text-neon"
+            >
+              <Icon className="size-5" />
+            </a>
+          );
+        })
+      }
+    </div>
+  </div>
+
+  <p class="border-t border-line/40 px-4 py-5 text-center text-xs text-ash">
+    © {year}
+    {site.name} · St. Goiânia 2, Goiânia - GO · Todos os direitos reservados
+  </p>
+</footer>

@@ -1,0 +1,63 @@
+---
+import { Image } from 'astro:assets';
+import logoMono from '@/assets/images/logo-mono.png';
+import { navLinks, links, site } from '@/data/site';
+import Button from '@/components/Button.astro';
+import { Calendar } from 'lucide-react';
+---
+
+<nav
+  id="nav"
+  class="fixed inset-x-0 top-0 z-50 transition-all duration-300 border-b border-transparent"
+>
+  <div class="mx-auto grid max-w-[1160px] grid-cols-[1fr_auto_1fr] items-center gap-4 px-4 py-3 sm:px-6">
+    <a
+      href="#inicio"
+      class="flex items-center gap-2.5 justify-self-start"
+      aria-label={`${site.name} — início`}
+    >
+      <Image
+        src={logoMono}
+        alt=""
+        width={40}
+        height={40}
+        class="h-9 w-9 object-contain drop-shadow-[0_0_8px_rgba(255,122,26,0.4)]"
+        loading="eager"
+      />
+      <span class="flex flex-col leading-none font-display">
+        <span class="text-sm font-semibold tracking-wide text-bone">
+          MANU'S <b class="text-neon">BARBEARIA</b>
+        </span>
+        <small class="text-[10px] tracking-[0.2em] text-ash">GOIÂNIA · GO</small>
+      </span>
+    </a>
+
+    <div class="hidden items-center gap-7 justify-self-center lg:flex">
+      {
+        navLinks.map((l) => (
+          <a
+            href={l.href}
+            class="text-sm font-medium text-bone-2 transition-colors hover:text-neon"
+          >
+            {l.label}
+          </a>
+        ))
+      }
+    </div>
+
+    <Button
+      href={links.booksy}
+      target="_blank"
+      rel="noopener"
+      size="sm"
+      class="justify-self-end"
+    >
+      <Calendar /> Agendar
+    </Button>
+  </div>
+  <div
+    id="scroll-progress"
+    class="h-0.5 w-0 origin-left bg-gradient-to-r from-orange-2 via-neon to-amber shadow-glow-sm"
+  >
+  </div>
+</nav>

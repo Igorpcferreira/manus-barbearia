@@ -1,0 +1,41 @@
+---
+import SectionHead from '@/components/SectionHead.astro';
+import { services } from '@/data/site';
+---
+
+<section
+  id="servicos"
+  class="relative z-10 mx-auto max-w-[1160px] scroll-mt-24 px-4 py-20 sm:px-6 sm:py-28"
+>
+  <SectionHead kicker="O que fazemos" center class="mx-auto">
+    Nossos <span class="text-gradient">Serviços</span>
+  </SectionHead>
+
+  <div class="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    {
+      services.map((s, i) => (
+        <div
+          class="reveal group flex items-start gap-4 rounded-2xl border border-line bg-panel/40 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-neon/50 hover:bg-panel-2/60 hover:shadow-glow-sm"
+          style={`--reveal-delay:${(i % 3) * 70}ms`}
+        >
+          <div class="grid size-12 shrink-0 place-items-center rounded-xl border border-line bg-void text-neon transition-colors group-hover:border-neon">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="size-6 transition-transform duration-300 group-hover:scale-110"
+              set:html={s.icon}
+            />
+          </div>
+          <div>
+            <h3 class="font-display text-lg font-semibold text-bone">{s.title}</h3>
+            <p class="mt-1 text-sm leading-snug text-bone-2">{s.desc}</p>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>

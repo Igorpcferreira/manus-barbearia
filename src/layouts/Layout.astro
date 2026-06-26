@@ -101,12 +101,15 @@ const jsonLd = {
   </head>
 
   <body>
-    <!-- Fundo ambiente (decorativo) -->
+    <!-- Fundo ambiente (decorativo): aurora simétrica + grid/grão/vinheta,
+         brasas em canvas e luz que segue o cursor. Tudo atrás do conteúdo. -->
     <div class="ambient-bg" aria-hidden="true">
-      <div class="ambient-aurora"></div>
+      <div class="ambient-aurora" data-par="0.04"></div>
       <div class="ambient-grid"></div>
       <div class="ambient-grain"></div>
       <div class="ambient-vignette"></div>
+      <canvas id="embers"></canvas>
+      <div class="cursor-glow" id="cglow"></div>
     </div>
 
     <slot />
@@ -147,6 +150,13 @@ const jsonLd = {
       };
       onScroll();
       window.addEventListener('scroll', onScroll, { passive: true });
+    </script>
+
+    <!-- Efeitos client-side (vanilla): brasas em canvas, cursor-glow, parallax,
+         tilt+glare e botões magnéticos. Carregado uma única vez; o próprio módulo
+         respeita prefers-reduced-motion e desliga em toque/desktop conforme o caso. -->
+    <script>
+      import '../scripts/fx';
     </script>
   </body>
 </html>

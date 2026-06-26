@@ -209,12 +209,24 @@
   to { background-position: 0 -28px; }
 }
 
-@keyframes glowPulse {
-  0%, 100% { opacity: 0.45; transform: translate(-50%, -50%) scale(1); }
-  50% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.06); }
+@keyframes haloPulse {
+  0%, 100% { opacity: 0.55; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 0.82; transform: translate(-50%, -50%) scale(1.06); }
 }
-.animate-glow-pulse {
-  animation: glowPulse 6s ease-in-out infinite;
+/* Halo central do hero, pulsando atrás da logo (calor da marca). */
+.hero-halo {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  width: 680px;
+  height: 680px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(232, 89, 12, 0.3), rgba(255, 122, 26, 0.1) 42%, transparent 66%);
+  filter: blur(10px);
+  z-index: 0;
+  pointer-events: none;
+  animation: haloPulse 7s ease-in-out infinite;
 }
 
 @keyframes auroraDrift {
@@ -279,6 +291,29 @@
   background: radial-gradient(120% 90% at 50% 30%, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
 }
 
+/* Brasas (canvas) + luz que segue o cursor — preenchem o fundo ambiente, atrás
+   do conteúdo. Toda a lógica fica em src/scripts/fx.ts. */
+#embers {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.cursor-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(255, 122, 26, 0.1), transparent 62%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s var(--ease);
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+
 .animate-marquee {
   animation: marquee 40s linear infinite;
 }
@@ -309,7 +344,13 @@
   }
   .ambient-aurora,
   .barber-pole,
-  .animate-marquee {
+  .animate-marquee,
+  .hero-halo {
     animation: none !important;
+  }
+  /* Desliga brasas e luz do cursor (o fx.ts já nem inicia; redundância segura). */
+  #embers,
+  .cursor-glow {
+    display: none !important;
   }
 }

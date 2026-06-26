@@ -23,7 +23,7 @@ import { Check } from 'lucide-react';
         <div
           data-tilt
           class:list={[
-            'reveal relative flex flex-col rounded-2xl border p-7 transition-all duration-300 hover:-translate-y-1',
+            'reveal relative flex flex-col rounded-2xl border p-7 transition-all duration-300',
             p.featured
               ? 'border-gold/60 bg-gradient-to-b from-panel-2 to-panel shadow-glow-gold'
               : 'border-line bg-panel/40 hover:border-neon/50 hover:shadow-glow-sm',
@@ -79,7 +79,7 @@ import { Check } from 'lucide-react';
           >
             Quero assinar
           </Button>
-          <span class="glare"></span>
+          <span class="glare" aria-hidden="true"></span>
         </div>
       ))
     }

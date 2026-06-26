@@ -16,7 +16,7 @@ import { services } from '@/data/site';
       services.map((s, i) => (
         <div
           data-tilt
-          class="reveal group relative flex items-start gap-4 rounded-2xl border border-line bg-panel/40 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-neon/50 hover:bg-panel-2/60 hover:shadow-glow-sm"
+          class="reveal group relative flex items-start gap-4 rounded-2xl border border-line bg-panel/40 p-5 transition-all duration-300 hover:border-neon/50 hover:bg-panel-2/60 hover:shadow-glow-sm"
           style={`--reveal-delay:${(i % 3) * 70}ms`}
         >
           <div class="grid size-12 shrink-0 place-items-center rounded-xl border border-line bg-void text-neon transition-colors group-hover:border-neon">
@@ -28,6 +28,7 @@ import { services } from '@/data/site';
               stroke-linecap="round"
               stroke-linejoin="round"
               class="size-6 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
               set:html={s.icon}
             />
           </div>
@@ -35,7 +36,7 @@ import { services } from '@/data/site';
             <h3 class="font-display text-lg font-semibold text-bone">{s.title}</h3>
             <p class="mt-1 text-sm leading-snug text-bone-2">{s.desc}</p>
           </div>
-          <span class="glare"></span>
+          <span class="glare" aria-hidden="true"></span>
         </div>
       ))
     }

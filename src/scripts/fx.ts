@@ -124,10 +124,14 @@ interface Ember {
 
 (function embers(): void {
   if (reduce) return;
-  const canvas = document.getElementById('embers');
-  if (!(canvas instanceof HTMLCanvasElement)) return;
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return;
+  const el = document.getElementById('embers');
+  if (!(el instanceof HTMLCanvasElement)) return;
+  // Aliases com tipo não-nulo: o narrowing por instanceof/null-check não sobrevive
+  // dentro das closures (resize/loop), então fixamos o tipo aqui.
+  const canvas: HTMLCanvasElement = el;
+  const context = canvas.getContext('2d');
+  if (!context) return;
+  const c2d: CanvasRenderingContext2D = context;
 
   const DPR = Math.min(window.devicePixelRatio || 1, 2); // limita DPR a 2 (perf)
   let W = 0;
@@ -191,8 +195,8 @@ interface Ember {
 
   function loop(): void {
     if (!running) return;
-    ctx!.setTransform(DPR, 0, 0, DPR, 0, 0);
-    ctx!.clearRect(0, 0, W, H);
+    c2d.setTransform(DPR, 0, 0, DPR, 0, 0);
+    c2d.clearRect(0, 0, W, H);
     const t = performance.now() / 1000;
     const sc = window.scrollY;
     for (const p of parts) {
@@ -216,14 +220,14 @@ interface Ember {
       }
       const a = clamp(Math.sin(p.life * Math.PI) * p.layer.alpha * (p.bright ? 1.4 : 1), 0, 1);
       const r = p.r * (p.bright ? 1.5 : 1);
-      ctx!.beginPath();
-      ctx!.arc(px, py, r, 0, Math.PI * 2);
-      ctx!.fillStyle = `hsla(${p.hue}, 100%, ${p.bright ? 68 : 58}%, ${a})`;
-      ctx!.shadowBlur = p.bright ? 16 : 9;
-      ctx!.shadowColor = `hsla(${p.hue}, 100%, 55%, ${a})`;
-      ctx!.fill();
+      c2d.beginPath();
+      c2d.arc(px, py, r, 0, Math.PI * 2);
+      c2d.fillStyle = `hsla(${p.hue}, 100%, ${p.bright ? 68 : 58}%, ${a})`;
+      c2d.shadowBlur = p.bright ? 16 : 9;
+      c2d.shadowColor = `hsla(${p.hue}, 100%, 55%, ${a})`;
+      c2d.fill();
     }
-    ctx!.shadowBlur = 0;
+    c2d.shadowBlur = 0;
     requestAnimationFrame(loop);
   }
   requestAnimationFrame(loop);

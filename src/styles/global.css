@@ -30,6 +30,12 @@
   --shadow-glow: 0 0 6px rgba(255, 122, 26, 0.65), 0 0 18px rgba(255, 122, 26, 0.45), 0 0 40px rgba(255, 122, 26, 0.22);
   --shadow-glow-sm: 0 0 5px rgba(255, 122, 26, 0.6), 0 0 14px rgba(255, 122, 26, 0.35);
   --shadow-glow-gold: 0 0 6px rgba(201, 163, 90, 0.5), 0 0 20px rgba(201, 163, 90, 0.3);
+
+  /* Curva/ritmo padrão das transições — unifica o easing de TODOS os utilitários
+     `transition-*` do Tailwind (nav, botões, cards, galeria, socials, FAB) que não
+     definem ease próprio. Mantém o movimento coeso em todo o site. */
+  --default-transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --default-transition-duration: 200ms;
 }
 
 /* ============================================================
@@ -37,6 +43,13 @@
    ============================================================ */
 :root {
   --radius: 0.75rem;
+
+  /* Tokens de transição (espelham o protótipo): usados pelo CSS cru
+     (.glare, .cursor-glow, .tilt, .hero-halo) e por src/scripts/fx.ts. */
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --dur: 0.3s;
+  --dur-sm: 0.2s;
+
   --background: #0a0704;
   --foreground: #f5ece2;
   --card: #160e08;
@@ -236,14 +249,16 @@
   z-index: 0;
   pointer-events: none;
 }
+/* Aurora simétrica/uniforme: radiais centradas em 50% (topo e base), suaves —
+   sem feixes/god-rays direcionais. A mesma atmosfera flui por todas as seções. */
 .ambient-aurora {
   position: absolute;
-  inset: -20%;
+  inset: -25%;
   background:
-    radial-gradient(900px 520px at 80% -8%, rgba(232, 89, 12, 0.2), transparent 60%),
-    radial-gradient(720px 600px at -10% 28%, rgba(122, 47, 13, 0.18), transparent 60%),
-    radial-gradient(640px 520px at 60% 110%, rgba(255, 122, 26, 0.1), transparent 60%);
-  animation: auroraDrift 24s ease-in-out infinite;
+    radial-gradient(1200px 760px at 50% -6%, rgba(232, 89, 12, 0.15), transparent 64%),
+    radial-gradient(1100px 820px at 50% 110%, rgba(255, 122, 26, 0.09), transparent 64%);
+  animation: auroraDrift 30s ease-in-out infinite;
+  will-change: transform;
 }
 .ambient-grid {
   position: absolute;

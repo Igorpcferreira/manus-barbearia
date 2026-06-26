@@ -44,7 +44,7 @@ src/
 │       ├── Lightbox.tsx     (galeria + modal com teclado)
 │       └── Fab.tsx          (botões flutuantes + voltar ao topo)
 └── assets/images/        ← imagens originais (otimizadas no build)
-legacy/                   ← site single-file antigo (backup, não é publicado)
+legacy/prototype.html    ← protótipo single-file APROVADO (fonte visual do design migrado; não publicado)
 ```
 
 ## ✏️ Como personalizar

@@ -38,6 +38,7 @@ import { Star } from 'lucide-react';
     {
       reviews.map((r, i) => (
         <article
+          data-tilt
           class="reveal relative flex flex-col rounded-2xl border border-line bg-panel/40 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-neon/40"
           style={`--reveal-delay:${(i % 3) * 70}ms`}
         >
@@ -62,6 +63,7 @@ import { Star } from 'lucide-react';
               <div class="text-xs text-ash">{r.date}</div>
             </div>
           </div>
+          <span class="glare"></span>
         </article>
       ))
     }

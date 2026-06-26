@@ -314,6 +314,33 @@
   will-change: transform;
 }
 
+/* ============================================================
+   TILT 3D + GLARE (cards de Serviços/Planos/Avaliações e foto do Sobre).
+   Gancho: data-tilt + <span class="glare"> no componente; lógica em fx.ts.
+   A transição de `transform` suaviza o seguir-o-cursor e o retorno ao sair.
+   ============================================================ */
+[data-tilt] {
+  transform-style: preserve-3d;
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
+}
+[data-tilt] .glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    220px 220px at var(--gx, 50%) var(--gy, 0%),
+    rgba(255, 179, 107, 0.16),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.25s var(--ease);
+  pointer-events: none;
+}
+[data-tilt].lit .glare {
+  opacity: 1;
+}
+
 .animate-marquee {
   animation: marquee 40s linear infinite;
 }
@@ -351,6 +378,13 @@
   /* Desliga brasas e luz do cursor (o fx.ts já nem inicia; redundância segura). */
   #embers,
   .cursor-glow {
+    display: none !important;
+  }
+  /* Desliga tilt 3D e glare (o fx.ts não anexa handlers sob reduced-motion). */
+  [data-tilt] {
+    transform: none !important;
+  }
+  [data-tilt] .glare {
     display: none !important;
   }
 }

@@ -21,6 +21,7 @@ import { Check } from 'lucide-react';
     {
       plans.map((p, i) => (
         <div
+          data-tilt
           class:list={[
             'reveal relative flex flex-col rounded-2xl border p-7 transition-all duration-300 hover:-translate-y-1',
             p.featured
@@ -74,9 +75,11 @@ import { Check } from 'lucide-react';
             rel="noopener"
             variant={p.featured ? 'gold' : 'primary'}
             class="mt-7 w-full"
+            data-mag
           >
             Quero assinar
           </Button>
+          <span class="glare"></span>
         </div>
       ))
     }

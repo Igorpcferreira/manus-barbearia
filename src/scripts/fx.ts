@@ -228,3 +228,42 @@ interface Ember {
   }
   requestAnimationFrame(loop);
 })();
+
+/* ============================================================
+   TILT 3D + GLARE (cards e foto) e BOTÕES MAGNÉTICOS (CTAs)
+   Apenas desktop com ponteiro fino; o suave retorno fica por conta da transição
+   de `transform` definida em .[data-tilt] / nos próprios botões (var(--dur)).
+   ============================================================ */
+if (fine && !reduce) {
+  const TILT_MAX = 8; // graus
+  document.querySelectorAll<HTMLElement>('[data-tilt]').forEach((card) => {
+    card.addEventListener('pointermove', (e) => {
+      const r = card.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width; // 0..1
+      const py = (e.clientY - r.top) / r.height; // 0..1
+      card.style.transform =
+        `perspective(800px) rotateX(${(0.5 - py) * TILT_MAX}deg) ` +
+        `rotateY(${(px - 0.5) * TILT_MAX}deg) translateZ(6px)`;
+      card.classList.add('lit');
+      card.style.setProperty('--gx', `${px * 100}%`);
+      card.style.setProperty('--gy', `${py * 100}%`);
+    });
+    card.addEventListener('pointerleave', () => {
+      card.style.transform = '';
+      card.classList.remove('lit');
+    });
+  });
+
+  const MAG_STRENGTH = 6; // intensidade da atração magnética
+  document.querySelectorAll<HTMLElement>('[data-mag]').forEach((btn) => {
+    btn.addEventListener('pointermove', (e) => {
+      const r = btn.getBoundingClientRect();
+      const x = (e.clientX - r.left - r.width / 2) / r.width;
+      const y = (e.clientY - r.top - r.height / 2) / r.height;
+      btn.style.transform = `translate(${x * MAG_STRENGTH * 2}px, ${y * MAG_STRENGTH * 2}px)`;
+    });
+    btn.addEventListener('pointerleave', () => {
+      btn.style.transform = '';
+    });
+  });
+}

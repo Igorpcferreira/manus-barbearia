@@ -14,8 +14,8 @@ moderno para sites de marketing: **Astro + Tailwind CSS v4 + React (ilhas) + Mot
 
 ## 🚀 Rodar localmente
 
-> Requer **Node 20.19.1+** (ou 22+). O projeto está fixado no **Astro 5** justamente para
-> rodar no Node 20. Veja a nota em *Segurança & versões* no fim.
+> Requer **Node 22.12+** (recomendado o **24 LTS**, fixado em `.nvmrc`). O projeto roda no
+> **Astro 7**. Com `nvm`: `nvm use` (lê o `.nvmrc`) ou `nvm use 24`.
 
 ```bash
 npm install        # instala dependências (usa o registry público — veja .npmrc)
@@ -76,12 +76,9 @@ O site é **estático** — não precisa de adaptador. Na Vercel:
 
 ## 🔒 Segurança & versões
 
-- `npm audit` aponta avisos no Astro 5 cujo conserto exige **Astro 7 (Node 22+)**. Para
-  **este site eles não se aplicam** (são sobre `define:vars`, server islands, slots
-  dinâmicos e SSR — recursos que não usamos; o conteúdo é estático e fixo) e a do `esbuild`
-  é só do **servidor de desenvolvimento** no Windows.
-- Quando você migrar para **Node 22+**, é possível subir para o Astro 7
-  (`npm i astro@latest @astrojs/react@latest`) e zerar os avisos.
+- Atualizado para **Astro 7 + @astrojs/react 6** rodando em **Node 24** — `npm audit`
+  agora aponta **0 vulnerabilidades**.
+- Node mínimo fixado em `package.json` (`engines.node >= 22.12.0`) e `.nvmrc` (24).
 - O `.npmrc` aponta para o registry público do npm (seu npm global usa um registry privado
   do trabalho; o `.npmrc` local garante que este projeto instale dos pacotes públicos).
 

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useInView, animate, useReducedMotion } from 'motion/react';
+import { useInView, animate } from 'motion/react';
 
 interface Props {
   to: number;
@@ -13,21 +13,17 @@ export default function Counter({ to, prefix = '', suffix = '', duration = 1.6 }
   const inView = useInView(ref, { once: true, margin: '-60px' });
   // Inicia no valor final → SSR e fallback sem-JS mostram o número correto.
   const [val, setVal] = useState(to);
-  const reduce = useReducedMotion();
 
   useEffect(() => {
     if (!inView) return;
-    if (reduce) {
-      setVal(to);
-      return;
-    }
+    // Conta sempre (sensação premium pedida pela marca, inclusive sob reduzir-movimento).
     const controls = animate(0, to, {
       duration,
       ease: [0.2, 0.8, 0.2, 1],
       onUpdate: (v) => setVal(Math.round(v)),
     });
     return () => controls.stop();
-  }, [inView, to, reduce, duration]);
+  }, [inView, to, duration]);
 
   return (
     <span ref={ref}>

@@ -354,37 +354,15 @@
 }
 
 /* ============================================================
-   ACESSIBILIDADE: reduz/desliga movimento pesado
+   ACESSIBILIDADE: prefers-reduced-motion
+   Decisão da marca: a atmosfera premium (brasas, aurora, halo, reveals, contadores)
+   continua rodando para TODO MUNDO — é parte da identidade e do efeito "wow". Mantemos
+   apenas uma cortesia para quem pede menos movimento: rolagem sem "smooth" (o parallax
+   de scroll é desligado no fx.ts). Os efeitos são suaves (brilho/flutuação), não há
+   flashes nem movimentos bruscos.
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
-  }
-  .reveal {
-    opacity: 1;
-    transform: none;
-  }
-  .ambient-aurora,
-  .barber-pole,
-  .animate-marquee,
-  .hero-halo {
-    animation: none !important;
-  }
-  /* Desliga brasas e luz do cursor (o fx.ts já nem inicia; redundância segura). */
-  #embers,
-  .cursor-glow {
-    display: none !important;
-  }
-  /* Desliga tilt 3D e glare (o fx.ts não anexa handlers sob reduced-motion). */
-  [data-tilt] {
-    transform: none !important;
-  }
-  [data-tilt] .glare {
-    display: none !important;
+  html {
+    scroll-behavior: auto;
   }
 }

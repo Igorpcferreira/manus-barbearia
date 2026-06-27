@@ -6,14 +6,19 @@
  *     reação ao cursor; faíscas brilhantes ocasionais; pausa em aba oculta)
  *   - Luz que segue o cursor (cursor-glow) — só desktop
  *   - Parallax das camadas de fundo ([data-par]) por scroll + mouse
- *   - Tilt 3D + glare nos cards/foto e botões magnéticos (ver fx.tilt abaixo)
+ *   - Tilt 3D + glare nos cards/foto e botões magnéticos (seção no fim)
  *
- * Guardas globais (no topo): respeita `prefers-reduced-motion` e só liga os
- * efeitos de ponteiro em desktop com ponteiro fino (`hover:hover`+`pointer:fine`).
- * Em toque / reduced-motion os efeitos pesados ficam desligados — o site continua
- * bonito estático. Importado UMA única vez no Layout.astro.
+ * Decisão da marca (sensação premium para TODOS): a atmosfera — brasas, aurora,
+ * halo, reveals — roda em qualquer dispositivo, inclusive no celular e mesmo com
+ * "reduzir movimento" ativo. A única cortesia sob `prefers-reduced-motion` é
+ * desligar o parallax de scroll (o movimento mais incômodo). Já os efeitos que
+ * dependem de MOUSE (tilt, glare, cursor-glow, magnético) ficam restritos a
+ * desktop com ponteiro fino (`hover:hover` + `pointer:fine`), pois não há como
+ * acioná-los no toque. Importado UMA única vez no Layout.astro.
  */
 
+// `reduce` é usado APENAS para desligar o parallax de scroll sob reduzir-movimento
+// (ver decisão da marca no doc do topo). `fine` restringe os efeitos de mouse.
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
@@ -64,7 +69,7 @@ if (parLayers.length && !reduce) {
    CURSOR-GLOW + parallax de mouse (apenas desktop com ponteiro fino)
    ============================================================ */
 const cglow = document.getElementById('cglow');
-if (cglow && fine && !reduce) {
+if (cglow && fine) {
   const GLOW_HALF = 260; // metade de 520px, p/ centralizar o brilho no cursor
   let tx = window.innerWidth / 2;
   let ty = window.innerHeight / 2;
@@ -123,7 +128,7 @@ interface Ember {
 }
 
 (function embers(): void {
-  if (reduce) return;
+  // Brasas rodam sempre (parte da identidade premium), inclusive sob reduzir-movimento.
   const el = document.getElementById('embers');
   if (!(el instanceof HTMLCanvasElement)) return;
   // Aliases com tipo não-nulo: o narrowing por instanceof/null-check não sobrevive
@@ -137,11 +142,13 @@ interface Ember {
   let W = 0;
   let H = 0;
 
-  // do fundo (pequenas/lentas/discretas) ao topo (grandes/rápidas/brilhantes)
+  // do fundo (pequenas/lentas/discretas) ao topo (grandes/rápidas/brilhantes).
+  // No toque mantemos uma redução leve (bateria), mas farta o bastante para a
+  // atmosfera de brasas aparecer cheia no celular (≈51 vs 60 no desktop).
   const layers: EmberLayer[] = [
-    { n: fine ? 26 : 10, sMin: 0.5, sMax: 1.4, vMin: 0.1, vMax: 0.3, alpha: 0.45, par: 0.02 },
-    { n: fine ? 20 : 8, sMin: 1.0, sMax: 2.2, vMin: 0.2, vMax: 0.5, alpha: 0.6, par: 0.05 },
-    { n: fine ? 14 : 6, sMin: 1.6, sMax: 3.2, vMin: 0.38, vMax: 0.8, alpha: 0.82, par: 0.09 },
+    { n: fine ? 26 : 22, sMin: 0.5, sMax: 1.4, vMin: 0.1, vMax: 0.3, alpha: 0.45, par: 0.02 },
+    { n: fine ? 20 : 17, sMin: 1.0, sMax: 2.2, vMin: 0.2, vMax: 0.5, alpha: 0.6, par: 0.05 },
+    { n: fine ? 14 : 12, sMin: 1.6, sMax: 3.2, vMin: 0.38, vMax: 0.8, alpha: 0.82, par: 0.09 },
   ];
 
   function make(layer: EmberLayer, seed: boolean): Ember {
@@ -238,7 +245,7 @@ interface Ember {
    Apenas desktop com ponteiro fino; o suave retorno fica por conta da transição
    de `transform` definida em .[data-tilt] / nos próprios botões (var(--dur)).
    ============================================================ */
-if (fine && !reduce) {
+if (fine) {
   const TILT_MAX = 8; // graus
   document.querySelectorAll<HTMLElement>('[data-tilt]').forEach((card) => {
     card.addEventListener('pointermove', (e) => {

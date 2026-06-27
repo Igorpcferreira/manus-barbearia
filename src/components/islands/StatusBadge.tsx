@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { motion, useReducedMotion } from 'motion/react';
+import { motion } from 'motion/react';
 import { openingHours } from '@/data/site';
 
 const DAY: Record<string, number> = {
@@ -31,7 +31,6 @@ function computeOpen(): boolean {
 
 export default function StatusBadge() {
   const [open, setOpen] = useState<boolean | null>(null);
-  const reduce = useReducedMotion();
 
   useEffect(() => {
     setOpen(computeOpen());
@@ -48,7 +47,7 @@ export default function StatusBadge() {
       <motion.span
         className="relative inline-block size-2.5 rounded-full"
         style={{ background: color, boxShadow: `0 0 8px ${color}` }}
-        animate={open && !reduce ? { scale: [1, 1.35, 1], opacity: [1, 0.7, 1] } : {}}
+        animate={open ? { scale: [1, 1.35, 1], opacity: [1, 0.7, 1] } : {}}
         transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
         aria-hidden="true"
       />

@@ -114,11 +114,11 @@ const jsonLd = {
 
     <slot />
 
-    <!-- Reveal on scroll (leve, sem framework) -->
+    <!-- Reveal on scroll (leve, sem framework). Roda para todos — a aparição suave
+         dos elementos faz parte da sensação premium pedida pela marca. -->
     <script>
       const els = document.querySelectorAll<HTMLElement>('.reveal');
-      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (!('IntersectionObserver' in window) || reduce) {
+      if (!('IntersectionObserver' in window)) {
         els.forEach((e) => e.classList.add('is-visible'));
       } else {
         const io = new IntersectionObserver(

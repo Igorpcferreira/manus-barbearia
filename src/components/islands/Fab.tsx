@@ -85,7 +85,7 @@ export default function Fab() {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="grid size-14 place-items-center rounded-full bg-neon text-void shadow-glow transition-transform hover:scale-105 active:scale-95"
+        className="cta-attract relative grid size-14 place-items-center overflow-hidden rounded-full bg-neon text-void shadow-glow transition-transform hover:scale-105 active:scale-95"
         aria-label={open ? 'Fechar menu de contato' : 'Abrir menu de contato'}
         aria-expanded={open}
       >

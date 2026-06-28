@@ -91,11 +91,81 @@ export const services = [
   },
 ];
 
-export const plans = [
+/**
+ * Planos exibidos na seção #planos, NA ORDEM da lista.
+ * - kind "smart": destaque no preço por corte/visita (de–por), faixa Seg·Ter·Qua
+ *   e selo mensal "R$x/mês · N no mês" — espelha os criativos da campanha.
+ * - kind "unlimited": preço mensal em destaque + frase curta.
+ */
+export type Plan = {
+  kind: "smart" | "unlimited";
+  name: string;
+  title: string;
+  featured: boolean;
+  badge?: string;
+  features: string[];
+  cta: string;
+  monthly: string;
+  // somente kind "smart"
+  lead?: string;
+  unitPrice?: string;
+  unitCents?: string;
+  unitFrom?: string;
+  unitLabel?: string;
+  schedule?: string;
+  monthlyNote?: string;
+  // somente kind "unlimited"
+  tag?: string;
+};
+
+export const plans: Plan[] = [
   {
+    kind: "smart",
+    name: "Plano Smart",
+    title: "Corte",
+    lead: "No plano mensal, seu corte sai por",
+    unitPrice: "33",
+    unitCents: "00",
+    unitFrom: "45",
+    unitLabel: "/ corte",
+    schedule: "Seg · Ter · Qua",
+    monthly: "132",
+    monthlyNote: "4 cortes no mês",
+    featured: false,
+    features: [
+      "Um corte por semana, sempre fresco",
+      "Economize R$48 todo mês",
+      "Seu horário garantido na semana",
+      "Agende quando quiser pelo Booksy",
+    ],
+    cta: "https://wa.me/5562984001740?text=Ol%C3%A1!%20Tenho%20interesse%20no%20Plano%20Smart%20de%20Corte%20(R%24132%2Fm%C3%AAs%2C%20seg%20a%20qua).",
+  },
+  {
+    kind: "smart",
+    name: "Plano Smart",
+    title: "Corte + Barba",
+    lead: "No plano mensal, corte + barba sai por",
+    unitPrice: "85",
+    unitCents: "00",
+    unitFrom: "120",
+    unitLabel: "/ visita",
+    schedule: "Seg · Ter · Qua",
+    monthly: "340",
+    monthlyNote: "4 visitas no mês",
+    featured: false,
+    features: [
+      "Corte + barba toda semana, na régua",
+      "Economize R$140 todo mês",
+      "Seu horário garantido na semana",
+      "Agende quando quiser pelo Booksy",
+    ],
+    cta: "https://wa.me/5562984001740?text=Ol%C3%A1!%20Tenho%20interesse%20no%20Plano%20Smart%20de%20Corte%20%2B%20Barba%20(R%24340%2Fm%C3%AAs%2C%20seg%20a%20qua).",
+  },
+  {
+    kind: "unlimited",
     name: "Plano Corte",
     title: "Corte Ilimitado",
-    price: "147",
+    monthly: "147",
     tag: "Cortes ilimitados o mês inteiro.",
     featured: false,
     features: [
@@ -106,9 +176,10 @@ export const plans = [
     cta: "https://wa.me/5562984001740?text=Ol%C3%A1!%20Tenho%20interesse%20no%20Plano%20Corte%20Ilimitado%20(R%24147%2Fm%C3%AAs).",
   },
   {
+    kind: "unlimited",
     name: "Plano Completo",
     title: "Corte + Barba Ilimitado",
-    price: "247",
+    monthly: "247",
     tag: "Cortes e barba ilimitados o mês inteiro.",
     featured: true,
     badge: "Mais popular",

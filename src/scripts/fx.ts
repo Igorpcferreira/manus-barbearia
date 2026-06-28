@@ -278,3 +278,28 @@ if (fine) {
     });
   });
 }
+
+/* ============================================================
+   RIPPLE no toque/clique — feedback tátil em TODOS os dispositivos (essencial no
+   celular, onde não há hover). Delegação no documento p/ pegar qualquer botão
+   [data-ripple], inclusive os que entram depois (ilhas React). Cada onda se
+   remove sozinha ao fim da animação.
+   ============================================================ */
+document.addEventListener(
+  'pointerdown',
+  (e) => {
+    const target = e.target as HTMLElement | null;
+    const btn = target?.closest<HTMLElement>('[data-ripple]');
+    if (!btn) return;
+    const r = btn.getBoundingClientRect();
+    const size = Math.max(r.width, r.height);
+    const ink = document.createElement('span');
+    ink.className = 'ripple';
+    ink.style.width = ink.style.height = `${size}px`;
+    ink.style.left = `${e.clientX - r.left - size / 2}px`;
+    ink.style.top = `${e.clientY - r.top - size / 2}px`;
+    btn.appendChild(ink);
+    ink.addEventListener('animationend', () => ink.remove());
+  },
+  { passive: true }
+);

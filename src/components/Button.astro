@@ -16,11 +16,11 @@ const cls = cn(buttonVariants({ variant, size }), className);
 
 {
   href ? (
-    <a href={href} class={cls} {...rest}>
+    <a href={href} class={cls} data-ripple {...rest}>
       <slot />
     </a>
   ) : (
-    <button class={cls} {...rest}>
+    <button class={cls} data-ripple {...rest}>
       <slot />
     </button>
   )

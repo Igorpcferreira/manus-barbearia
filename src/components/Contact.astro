@@ -15,13 +15,27 @@ import { WhatsAppIcon } from '@/components/icons';
   </SectionHead>
 
   <div class="mt-10 grid gap-6 lg:grid-cols-2">
-    <div class="reveal overflow-hidden rounded-2xl border border-line shadow-glow-sm">
+    <div class="reveal relative min-h-[340px] overflow-hidden rounded-2xl border border-line shadow-glow-sm">
+      <!-- Placeholder enquanto o mapa carrega: evita o "quadrado vazio".
+           Some suavemente quando o iframe dispara o evento `load`. -->
+      <div
+        id="map-skeleton"
+        class="map-skeleton absolute inset-0 z-10 grid place-items-center bg-panel/60 transition-opacity duration-500"
+      >
+        <div class="flex flex-col items-center gap-2.5">
+          <MapPin className="size-7 animate-pulse text-neon" />
+          <span class="text-[11px] font-display uppercase tracking-[0.22em] text-ash">
+            Carregando mapa…
+          </span>
+        </div>
+      </div>
       <iframe
+        id="map-frame"
         loading="lazy"
         referrerpolicy="no-referrer-when-downgrade"
         title="Mapa - Manu's Barbearia"
         src={links.mapEmbed}
-        class="h-full min-h-[340px] w-full"
+        class="relative z-0 h-full min-h-[340px] w-full opacity-0 transition-opacity duration-700"
       ></iframe>
     </div>
 
@@ -69,7 +83,7 @@ import { WhatsAppIcon } from '@/components/icons';
       </div>
 
       <div class="grid grid-cols-2 gap-3">
-        <Button href={links.booksy} target="_blank" rel="noopener" size="sm" class="min-h-11" data-mag>
+        <Button href={links.booksy} target="_blank" rel="noopener" size="sm" class="cta-attract min-h-11" data-mag>
           <Calendar /> Agendar
         </Button>
         <Button href={links.whatsapp} target="_blank" rel="noopener" variant="ghost" size="sm" class="min-h-11">
@@ -85,3 +99,25 @@ import { WhatsAppIcon } from '@/components/icons';
     </div>
   </div>
 </section>
+
+<script>
+  // Revela o mapa só quando o iframe termina de carregar (evento `load` dispara
+  // mesmo em iframe cross-origin), trocando o placeholder pelo mapa sem o
+  // "quadrado vazio". Fallback por tempo cobre casos raros (cache/lazy).
+  const frame = document.getElementById('map-frame');
+  const skeleton = document.getElementById('map-skeleton');
+  if (frame) {
+    let revealed = false;
+    const reveal = () => {
+      if (revealed) return;
+      revealed = true;
+      frame.style.opacity = '1';
+      if (skeleton) {
+        skeleton.style.opacity = '0';
+        setTimeout(() => skeleton.remove(), 600);
+      }
+    };
+    frame.addEventListener('load', reveal);
+    setTimeout(reveal, 6000);
+  }
+</script>

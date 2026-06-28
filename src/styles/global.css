@@ -354,6 +354,77 @@
 }
 
 /* ============================================================
+   CTA "CHAMATIVO" NO CELULAR + RIPPLE de clique/toque
+   No celular (sem hover/tilt/magnético) os CTAs estratégicos [class="cta-attract"]
+   ganham um pulso de brilho + um reflexo que varre a superfície — convite visual
+   ao toque. No desktop os efeitos de mouse (tilt/magnético) já cumprem esse papel,
+   então o pulso fica restrito a ponteiro grosso. Já o RIPPLE ([data-ripple],
+   lógica em fx.ts) roda em qualquer dispositivo como feedback do clique/toque.
+   ============================================================ */
+@media (hover: none) and (pointer: coarse) {
+  .cta-attract {
+    animation: ctaPulse 2.6s var(--ease) infinite;
+  }
+  .cta-attract::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -65%;
+    width: 42%;
+    transform: skewX(-18deg);
+    background: linear-gradient(90deg, transparent, rgba(255, 245, 230, 0.5), transparent);
+    pointer-events: none;
+    z-index: 1;
+    animation: ctaShine 3.6s var(--ease) infinite;
+  }
+}
+@keyframes ctaPulse {
+  0%, 100% {
+    box-shadow: 0 0 6px rgba(255, 122, 26, 0.55), 0 0 16px rgba(255, 122, 26, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 12px rgba(255, 122, 26, 0.9), 0 0 30px rgba(255, 122, 26, 0.6),
+      0 0 56px rgba(255, 122, 26, 0.32);
+  }
+}
+@keyframes ctaShine {
+  0% { left: -65%; }
+  55%, 100% { left: 125%; }
+}
+
+/* Onda do toque/clique. z-index:-1 (o botão tem `isolate`) deixa a onda SOBRE o
+   fundo do botão e SOB o texto/ícone. Cada onda se remove ao fim da animação. */
+.ripple {
+  position: absolute;
+  z-index: -1;
+  border-radius: 9999px;
+  background: rgba(255, 245, 230, 0.45);
+  transform: scale(0);
+  pointer-events: none;
+  animation: ripple 0.6s var(--ease);
+}
+@keyframes ripple {
+  to {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+/* Shimmer do placeholder do mapa (enquanto o iframe carrega) — some com ele. */
+.map-skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255, 122, 26, 0.07), transparent);
+  animation: shimmer 1.8s linear infinite;
+}
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
+
+/* ============================================================
    ACESSIBILIDADE: prefers-reduced-motion
    Decisão da marca: a atmosfera premium (brasas, aurora, halo, reveals, contadores)
    continua rodando para TODO MUNDO — é parte da identidade e do efeito "wow". Mantemos
@@ -364,5 +435,12 @@
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+  /* Sem animações em loop para quem pede menos movimento. O ripple (feedback
+     pontual do toque/clique) é mantido por ser breve e iniciado pelo usuário. */
+  .cta-attract,
+  .cta-attract::after,
+  .map-skeleton::after {
+    animation: none;
   }
 }

@@ -1,87 +1,47 @@
-# Manu's Barbearia — Landing Page
+# Manu's Barbearia
 
-Landing page premium da **Manu's Barbearia** (Goiânia‑GO), reconstruída no melhor stack
-moderno para sites de marketing: **Astro + Tailwind CSS v4 + React (ilhas) + Motion + shadcn/ui**.
+Site da **Manu's Barbearia** (Goiânia-GO), no ar em www.manusbarbearia.com.br.
 
-- ⚡ **Performance no topo:** quase zero JavaScript por padrão (Astro), imagens otimizadas em
-  WebP automaticamente, ótimo para Core Web Vitals e SEO.
-- 📱 **Mobile‑first:** público principal é celular; layout e toque pensados pra telefone.
-- 🎨 **Identidade preservada:** tema neon dark (laranja/âmbar), fontes Chakra Petch + Space
-  Grotesk, barber pole, brasa/glow, status aberto/fechado, FAB de contato.
-- ♿ **Acessível:** contraste, foco visível, `prefers-reduced-motion`, alvos de toque ≥44px.
+## O que está no ar: a V2
 
----
+Desde 23/11/2026 a home é **`public/index.html`**, uma página única escrita à mão (HTML, CSS e
+JavaScript nativo, sem framework). Foi aprovada pelo Marcos, dono da barbearia, depois de ficar em
+teste em `/novo/`.
 
-## 🚀 Rodar localmente
+- Fontes auto-hospedadas em `public/fonts/`, imagens em `.webp` em `public/img/`
+- Ícones: Boxicons 2.1.4 (licença MIT), embutidos na própria página
+- O mapa do Google só carrega depois que a pessoa aceita os cookies (aviso no rodapé da tela)
+- Abre direto do disco também, sem servidor e sem build
 
-> Requer **Node 22.12+** (recomendado o **24 LTS**, fixado em `.nvmrc`). O projeto roda no
-> **Astro 7**. Com `nvm`: `nvm use` (lê o `.nvmrc`) ou `nvm use 24`.
+**Para mudar texto, preço, horário ou foto, edite `public/index.html`.** Os preços aparecem em dois
+lugares: nos cartões de plano e no objeto do simulador, no script do fim da página.
+
+`/novo` e `/novo/` redirecionam para a home (`vercel.json`), porque o link de teste chegou a ser
+mandado.
+
+## A V1, fora do ar
+
+O site anterior, em Astro, continua em `src/`, mas não é publicado: a página dele foi renomeada para
+`src/pages/_index-v1.astro`, e o Astro não transforma em rota arquivo que começa com `_`.
+
+Para voltar à V1: renomeie de volta para `src/pages/index.astro` e apague `public/index.html`.
+
+`legacy/prototype.html` é o protótipo que deu origem à V1. Não é publicado.
+
+## Como o deploy funciona
+
+A Vercel está configurada como projeto Astro (`astro build`, saída em `dist`). Como não há rota em
+`src/pages`, o build só copia `public/` para `dist/`, e é isso que vai ao ar.
+
+**Push na `main` publica.**
+
+Para conferir o build localmente (Node 24, fixado no `.nvmrc`):
 
 ```bash
-npm install        # instala dependências (usa o registry público — veja .npmrc)
-npm run dev        # servidor de desenvolvimento (http://localhost:4321)
-npm run build      # gera o site estático em dist/
-npm run preview    # serve o dist/ pra conferir o build de produção
+npm ci
+npm run build      # gera dist/
+npm run preview    # serve o dist/
 ```
 
----
-
-## 🗂️ Estrutura
-
-```
-src/
-├── data/site.ts          ← CONTEÚDO (textos, serviços, planos, reviews, contato, horários)
-├── styles/global.css     ← TEMA (paleta neon em @theme, tokens shadcn, animações)
-├── layouts/Layout.astro  ← <head>, SEO/OG, JSON-LD, fontes, fundo, scripts
-├── pages/index.astro     ← monta as seções
-├── components/
-│   ├── *.astro           ← seções estáticas (Nav, Hero, About, Services, Plans, Reviews, Contact, Footer)
-│   ├── ui/button.tsx     ← Button (shadcn) p/ ilhas
-│   ├── Button.astro      ← Button estático (mesmo visual, zero JS)
-│   └── islands/          ← ilhas React + Motion (só onde precisa de interação):
-│       ├── StatusBadge.tsx  (aberto/fechado, fuso de São Paulo)
-│       ├── Counter.tsx      (estatísticas animadas)
-│       ├── Lightbox.tsx     (galeria + modal com teclado)
-│       └── Fab.tsx          (botões flutuantes + voltar ao topo)
-└── assets/images/        ← imagens originais (otimizadas no build)
-legacy/prototype.html    ← protótipo single-file APROVADO (fonte visual do design migrado; não publicado)
-```
-
-## ✏️ Como personalizar
-
-- **Textos / serviços / planos / avaliações / contato / horários:** tudo em
-  [`src/data/site.ts`](src/data/site.ts). É o único lugar que você edita pro dia a dia.
-- **Cores e fontes:** [`src/styles/global.css`](src/styles/global.css) (bloco `@theme`).
-- **Imagens:** troque os arquivos em `src/assets/images/` (mantendo os nomes) — o Astro
-  reotimiza no build. A imagem de compartilhamento (WhatsApp/Google) é `public/og.jpg`.
-- **Domínio:** ao comprar, atualize `site:` em [`astro.config.mjs`](astro.config.mjs) e a
-  `url`/`image` do JSON-LD seguem junto (canonical, OG e dados estruturados).
-
----
-
-## ☁️ Deploy na Vercel
-
-O site é **estático** — não precisa de adaptador. Na Vercel:
-
-1. Importe o repositório (a Vercel detecta Astro automaticamente).
-   - **Build command:** `astro build` · **Output directory:** `dist`
-2. Deploy. Pronto — já sai no domínio `*.vercel.app`.
-3. **Domínio próprio:** em *Settings → Domains*, adicione o domínio comprado e aponte o DNS
-   conforme as instruções da Vercel. Depois, atualize `site:` no `astro.config.mjs` e
-   refaça o deploy pra canonical/OG ficarem com a URL final.
-
-> Dica: como é estático, também funciona em Netlify, Cloudflare Pages, GitHub Pages, etc.
-
----
-
-## 🔒 Segurança & versões
-
-- Atualizado para **Astro 7 + @astrojs/react 6** rodando em **Node 24** — `npm audit`
-  agora aponta **0 vulnerabilidades**.
-- Node mínimo fixado em `package.json` (`engines.node >= 22.12.0`) e `.nvmrc` (24).
-- O `.npmrc` aponta para o registry público do npm (seu npm global usa um registry privado
-  do trabalho; o `.npmrc` local garante que este projeto instale dos pacotes públicos).
-
----
-
-Feito com ⚡ para a **Manu's Barbearia** — Goiânia‑GO.
+O `.npmrc` aponta para o registry público do npm, para o projeto não depender do registry
+configurado no npm global da máquina.

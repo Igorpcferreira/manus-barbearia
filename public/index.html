@@ -1,26 +1,25 @@
 <!doctype html>
 <!--
-  Manu's Barbearia · REDESIGN em página separada (22/11/2026)
-  Servida em www.manusbarbearia.com.br/novo/ a partir de public/novo. A home continua sendo o Astro em src/.
-  Página de teste: tem noindex. Se o Marcos aprovar, tirar o noindex e apontar og:url para a raiz.
-  Se não aprovar, basta apagar a pasta public/novo.
+  Manu's Barbearia · V2, home oficial desde 23/11/2026 (aprovada pelo Marcos)
+  Página única em HTML escrito à mão, servida de public/ pelo build do Astro.
+  A V1 em Astro continua em src/, fora do ar (src/pages/_index-v1.astro não vira rota).
   Abre direto do disco também, sem servidor e sem build.
 -->
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<script>if(/\/novo$/.test(location.pathname))location.replace(location.pathname+'/'+location.search+location.hash)</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Manu's Barbearia · Barbearia em Goiânia com hora marcada</title>
 <meta name="description" content="Barbearia no Setor Goiânia 2, em Goiânia. Corte, barba e cuidados masculinos com hora marcada, planos mensais e agenda pelo Booksy ou WhatsApp.">
 <meta name="theme-color" content="#0a0704">
-<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://www.manusbarbearia.com.br/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Manu's Barbearia">
 <meta property="og:title" content="Manu's Barbearia · Goiânia">
 <meta property="og:description" content="Corte, barba e cuidados masculinos com hora marcada. Planos mensais e agenda pelo Booksy.">
-<meta property="og:url" content="https://www.manusbarbearia.com.br/novo/">
-<meta property="og:image" content="https://www.manusbarbearia.com.br/novo/img/og.jpg">
+<meta property="og:url" content="https://www.manusbarbearia.com.br/">
+<meta property="og:image" content="https://www.manusbarbearia.com.br/img/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -36,7 +35,7 @@
   "name": "Manu's Barbearia",
   "alternateName": "Manus Barbearia",
   "url": "https://www.manusbarbearia.com.br/",
-  "image": "https://www.manusbarbearia.com.br/novo/img/og.jpg",
+  "image": "https://www.manusbarbearia.com.br/img/og.jpg",
   "telephone": "+5562984001740",
   "address": {
     "@type": "PostalAddress",
@@ -1086,7 +1085,7 @@ body:has(.dock.show) #ck{bottom:calc(88px + env(safe-area-inset-bottom))}
 <!-- ================= LIGHTBOX ================= -->
 <dialog id="lb" aria-label="Foto ampliada">
   <div class="lb-fig">
-    <img id="lbImg" src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" width="723" height="900" alt="">
+    <img id="lbImg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" width="723" height="900" alt="">
     <p class="lb-cap" id="lbCap"></p>
     <div class="lb-bar">
       <button class="lb-btn" type="button" id="lbPrev" aria-label="Foto anterior"><svg class="i"><use href="#i-chevron-left"/></svg></button>

@@ -1,6 +1,6 @@
 {
   "redirects": [
     { "source": "/novo", "destination": "/", "permanent": true },
-    { "source": "/novo/:path*", "destination": "/", "permanent": true }
+    { "source": "/novo/(.*)", "destination": "/", "permanent": true }
   ]
 }
